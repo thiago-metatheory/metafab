@@ -1,0 +1,131 @@
+{
+	"$schema": "./node_modules/@openapitools/openapi-generator-cli/config.schema.json",
+	"spaces": 2,
+	"generator-cli": {
+		"version": "6.2.1",
+		"generators": {
+			"metafab-javascript": {
+				"generatorName": "javascript",
+				"output": "openapi/sdks/metafab-javascript",
+				"glob": "openapi/spec/spec.json",
+				"additionalProperties": {
+          "projectName": "metafab-javascript",
+          "projectDescription": "Official JavaScript client for MetaFab.",
+          "licenseName": "MIT",
+					"usePromises": true
+				}
+			},
+      "metafab-typescript-fetch": {
+        "generatorName": "typescript-fetch",
+        "output": "openapi/sdks/metafab-typescript-fetch",
+        "glob": "openapi/spec/spec.json",
+        "additionalProperties": {
+          "npmName": "metafab-typescript-fetch",
+          "supportsES6": true
+        }
+      },
+			"metafab-python": {
+				"generatorName": "python",
+				"output": "openapi/sdks/metafab-python",
+				"glob": "openapi/spec/spec.json",
+				"additionalProperties": {
+					"packageName": "metafab_python",
+					"packageUrl": "https://pypi.org/project/metafab-python/",
+					"packageVersion": "1.5.2",
+					"projectName": "metafab_python"
+				}
+			},
+			"metafab-swift5": {
+				"generatorName": "swift5",
+				"output": "openapi/sdks/metafab-swift5",
+				"glob": "openapi/spec/spec.json",
+				"additionalProperties": {
+					"projectName": "MetaFabSwift5",
+					"podAuthors": "MetaFab<dev@trymetafab.com>",
+					"podDescription": "Swift5 APIs for MetaFab services. See https://github.com/MetaFabInc/metafab-swift5 for complete documentation.",
+					"podDocumentationURL": "https://github.com/MetaFabInc/metafab-swift5",
+					"podHomepage": "https://github.com/MetaFabInc/metafab-swift5",
+					"podSocialMediaURL": "https://twitter.com/tryMetaFab",
+					"podSummary": "Swift5 APIs for MetaFab services.",
+					"podSource": "{ :git => 'git@github.com:MetaFabInc/metafab-swift5.git' :tag => s.version.to_s }",
+					"swiftPackagePath": "MetaFabSwift5/Classes/MetaFabSwift5"
+				}
+			},
+			"metafab-csharp": {
+				"generatorName": "csharp",
+				"output": "openapi/sdks/metafab-csharp",
+				"glob": "openapi/spec/spec.json",
+				"additionalProperties": {
+					"packageName": "Org.MetaFab",
+					"packageGuid": "384bc120-f20d-480d-9c92-33076039676c"
+				}
+			},
+			"metafab-java": {
+				"generatorName": "java",
+				"output": "openapi/sdks/metafab-java",
+				"glob": "openapi/spec/spec.json",
+				"additionalProperties": {
+					"apiPackage": "org.metafab.client.api",
+					"artifactDescription": "MetaFab API Client",
+					"artifactId": "metafab-java",
+					"artifactUrl": "https://github.com/MetaFabInc/metafab-java/",
+					"asyncNative": true,
+					"developerEmail": "dev@trymetafab.com",
+					"developerName": "MetaFab",
+					"developerOrganization": "MetaFab",
+					"developerOrganizationUrl": "https://trymetafab.com",
+					"groupId": "org.metafab",
+					"invokerPackage": "org.metafab.client",
+					"licenseName": "MIT",
+					"scmConnection": "scm:git:git@github.com:MetaFabInc/metafab-java.git",
+					"scmDeveloperConnection": "scm:git:git@github.com:MetaFabInc/metafab-java.git",
+					"scmUrl": "https://github.com/MetaFabInc/metafab-java/",
+					"testOutput": "openapi/sdks/metafab-java/generated-test-sources/openapi"
+				}
+			},
+			"metafab-java-android": {
+				"generatorName": "android",
+				"output": "openapi/sdks/metafab-java-android",
+				"glob": "openapi/spec/spec.json",
+				"additionalProperties": {
+					"apiPackage": "org.metafab.client.api",
+					"artifactId": "metafab-java-android",
+					"groupId": "org.metafab",
+					"invokerPackage": "org.metafab.client"
+				}
+			},
+			"metafab-rust": {
+				"generatorName": "rust",
+				"output": "openapi/sdks/metafab-rust",
+				"glob": "openapi/spec/spec.json",
+				"additionalProperties": {
+					"packageName": "metafab"
+				}
+			},
+			"metafab-php": {
+				"generatorName": "php",
+				"output": "openapi/sdks/metafab-php",
+				"glob": "openapi/spec/spec.json",
+				"additionalProperties": {
+					"apiPackage": "MetaFab",
+					"invokerPackage": "MetaFab",
+					"packageName": "MetaFab"
+				}
+			},
+			"metafab-go": {
+				"generatorName": "go",
+				"output": "openapi/sdks/metafab-go",
+				"glob": "openapi/spec/spec.json",
+				"additionalProperties": {
+					"packageName": "metafab"
+				}
+			},
+			"metafab-cpp-ue4": {
+				"generatorName": "cpp-ue4",
+				"output": "openapi/sdks/metafab-cpp-ue4",
+				"glob": "openapi/spec/spec.json",
+				"additionalProperties": {}
+			}
+		}
+	}
+}

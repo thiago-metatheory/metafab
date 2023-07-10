@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Contract` MODIFY `chain` ENUM('LOCAL', 'ETHEREUM', 'GOERLI', 'MATIC', 'MATICMUMBAI') NOT NULL;

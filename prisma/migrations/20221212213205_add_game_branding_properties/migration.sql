@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE `Game` ADD COLUMN `coverImageUrl` VARCHAR(255) NULL,
+    ADD COLUMN `iconImageUrl` VARCHAR(255) NULL,
+    ADD COLUMN `primaryColorHex` VARCHAR(7) NOT NULL DEFAULT '#9549F5',
+    ADD COLUMN `redirectUris` JSON NOT NULL;

@@ -1,0 +1,225 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Game {
+  id               String           @id @default(uuid())
+  walletId         String           @unique
+  fundingWalletId  String           @unique
+  email            String           @unique @db.VarChar(255)
+  password         String           @db.VarChar(255)
+  name             String           @db.VarChar(255)
+  rpcs             Json             @default("{}")
+  redirectUris     Json             @default("[]")
+  iconImageUrl     String?          @db.VarChar(255)
+  coverImageUrl    String?          @db.VarChar(255)
+  primaryColorHex  String           @default("#9549F5") @db.VarChar(7)
+  publishedKey     String           @unique @db.VarChar(255)
+  secretKey        String           @unique @db.VarChar(255)
+  verificationCode String           @default(cuid()) @db.VarChar(255)
+  verified         Boolean          @default(false)
+  saltCiphertext   String           @db.Text
+  discordClientId  String?
+  updatedAt        DateTime         @updatedAt
+  createdAt        DateTime         @default(now())
+  wallet           Wallet           @relation("game_wallet", fields: [walletId], references: [id])
+  fundingWallet    Wallet           @relation("game_fundingWallet", fields: [fundingWalletId], references: [id])
+  players          Player[]
+  currencies       Currency[]
+  contracts        Contract[]
+  collections      Collection[]
+  shops            Shop[]
+  lootboxManagers  LootboxManager[]
+  ecosystems       EcosystemGame[]
+}
+
+model Player {
+  id                   String    @id @default(uuid())
+  gameId               String
+  walletId             String    @unique
+  connectedWalletId    String?
+  profileId            String?
+  username             String    @db.VarChar(255)
+  password             String?   @db.VarChar(255)
+  accessToken          String    @unique @db.VarChar(255)
+  profilePermissions   Json?     @default("{}")
+  serviceAuthLookup    String?   @db.VarChar(255)
+  recoveryEmailLookup  String?   @db.VarChar(255)
+  recoveryEmailCode    String?   @db.VarChar(255)
+  accessTokenExpiresAt DateTime?
+  updatedAt            DateTime  @updatedAt
+  createdAt            DateTime  @default(now())
+  game                 Game      @relation(fields: [gameId], references: [id])
+  wallet               Wallet    @relation("player_wallet", fields: [walletId], references: [id])
+  connectedWallet      Wallet?   @relation("player_connectedWallets", fields: [connectedWalletId], references: [id])
+  profile              Profile?  @relation(fields: [profileId], references: [id])
+
+  @@unique([gameId, username])
+}
+
+model Profile {
+  id                  String    @id @default(uuid())
+  ecosystemId         String
+  walletId            String    @unique
+  connectedWalletId   String?
+  username            String    @db.VarChar(255)
+  password            String    @db.VarChar(255)
+  accessToken         String    @unique @db.VarChar(255)
+  recoveryEmailLookup String?   @db.VarChar(255)
+  recoveryEmailCode   String?   @db.VarChar(255)
+  updatedAt           DateTime  @updatedAt
+  createdAt           DateTime  @default(now())
+  ecosystem           Ecosystem @relation(fields: [ecosystemId], references: [id])
+  wallet              Wallet    @relation("profile_wallet", fields: [walletId], references: [id])
+  connectedWallet     Wallet?   @relation("profile_connectedWallets", fields: [connectedWalletId], references: [id])
+  players             Player[]
+}
+
+model Ecosystem {
+  id              String          @id @default(uuid())
+  email           String          @unique @db.VarChar(255)
+  password        String          @db.VarChar(255)
+  name            String          @db.VarChar(255)
+  iconImageUrl    String?         @db.VarChar(255)
+  coverImageUrl   String?         @db.VarChar(255)
+  primaryColorHex String          @default("#9549F5") @db.VarChar(7)
+  publishedKey    String          @unique @db.VarChar(255)
+  secretKey       String          @unique @db.VarChar(255)
+  saltCiphertext  String          @db.Text
+  updatedAt       DateTime        @updatedAt
+  createdAt       DateTime        @default(now())
+  profiles        Profile[]
+  games           EcosystemGame[]
+}
+
+model EcosystemGame {
+  id          String    @id @default(uuid())
+  ecosystemId String
+  gameId      String
+  updatedAt   DateTime  @updatedAt
+  createdAt   DateTime  @default(now())
+  ecosystem   Ecosystem @relation(fields: [ecosystemId], references: [id])
+  game        Game      @relation(fields: [gameId], references: [id])
+}
+
+model Wallet {
+  id                      String        @id @default(uuid())
+  address                 String        @unique @db.VarChar(255)
+  ciphertext              String        @db.Text
+  backupCiphertexts       Json          @default("[]")
+  updatedAt               DateTime      @updatedAt
+  createdAt               DateTime      @default(now())
+  walletGame              Game?         @relation("game_wallet")
+  fundingWalletGame       Game?         @relation("game_fundingWallet")
+  walletPlayer            Player?       @relation("player_wallet")
+  connectedWalletPlayers  Player[]      @relation("player_connectedWallets")
+  walletProfile           Profile?      @relation("profile_wallet")
+  connectedWalletProfiles Profile[]     @relation("profile_connectedWallets")
+  transactions            Transaction[]
+}
+
+model Collection {
+  id         String   @id @default(uuid())
+  gameId     String
+  contractId String
+  name       String   @default("Unnamed Collection") @db.VarChar(255)
+  updatedAt  DateTime @updatedAt
+  createdAt  DateTime @default(now())
+  game       Game     @relation(fields: [gameId], references: [id])
+  contract   Contract @relation(fields: [contractId], references: [id])
+}
+
+model Currency {
+  id         String   @id @default(uuid())
+  gameId     String
+  contractId String
+  name       String   @db.VarChar(255)
+  symbol     String   @db.VarChar(255)
+  supplyCap  BigInt   @db.BigInt
+  updatedAt  DateTime @updatedAt
+  createdAt  DateTime @default(now())
+  game       Game     @relation(fields: [gameId], references: [id])
+  contract   Contract @relation(fields: [contractId], references: [id])
+}
+
+model Contract {
+  id               String           @id @default(uuid())
+  gameId           String
+  chain            Chain
+  abi              Json
+  type             String           @db.VarChar(255)
+  address          String           @db.VarChar(255)
+  forwarderAddress String?          @db.VarChar(255)
+  updatedAt        DateTime         @updatedAt
+  createdAt        DateTime         @default(now())
+  game             Game             @relation(fields: [gameId], references: [id])
+  currencies       Currency[]
+  transactions     Transaction[]
+  collections      Collection[]
+  shops            Shop[]
+  lootboxManagers  LootboxManager[]
+}
+
+model Shop {
+  id         String   @id @default(uuid())
+  gameId     String
+  contractId String
+  name       String   @default("Unnamed Shop") @db.VarChar(255)
+  updatedAt  DateTime @updatedAt
+  createdAt  DateTime @default(now())
+  game       Game     @relation(fields: [gameId], references: [id])
+  contract   Contract @relation(fields: [contractId], references: [id])
+}
+
+model LootboxManager {
+  id         String   @id @default(uuid())
+  gameId     String
+  contractId String
+  name       String   @default("Unnamed Lootbox Manager") @db.VarChar(255)
+  updatedAt  DateTime @updatedAt
+  createdAt  DateTime @default(now())
+  game       Game     @relation(fields: [gameId], references: [id])
+  contract   Contract @relation(fields: [contractId], references: [id])
+}
+
+model Transaction {
+  id         String   @id @default(uuid())
+  contractId String
+  walletId   String
+  function   String   @db.Text
+  args       Json
+  hash       String   @db.VarChar(255)
+  updatedAt  DateTime @updatedAt
+  createdAt  DateTime @default(now())
+  contract   Contract @relation(fields: [contractId], references: [id])
+  wallet     Wallet   @relation(fields: [walletId], references: [id])
+}
+
+enum Chain {
+  LOCAL
+  ETHEREUM
+  GOERLI
+  MATIC
+  MATICMUMBAI
+  ARBITRUM
+  ARBITRUMNOVA
+  ARBITRUMGOERLI
+  BINANCE
+  BINANCETESTNET
+  FANTOM
+  FANTOMTESTNET
+  MOONBEAM
+  MOONBEAMTESTNET
+  THUNDERCORE
+  THUNDERCORETESTNET
+  AVALANCHE
+  AVALANCHEFUJI
+}

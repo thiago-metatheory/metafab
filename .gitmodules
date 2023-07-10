@@ -1,0 +1,39 @@
+[submodule "openapi/sdks/metafab-javascript"]
+	path = openapi/sdks/metafab-javascript
+	url = https://github.com/MetaFabInc/metafab-javascript.git
+[submodule "openapi/sdks/metafab-typescript-fetch"]
+	path = openapi/sdks/metafab-typescript-fetch
+	url = https://github.com/MetaFabInc/metafab-typescript-fetch.git
+[submodule "openapi/sdks/metafab-python"]
+	path = openapi/sdks/metafab-python
+	url = https://github.com/MetaFabInc/metafab-python.git
+[submodule "openapi/spec"]
+	path = openapi/spec
+	url = https://github.com/MetaFabInc/openapi-spec
+[submodule "openapi/sdks/metafab-swift5"]
+	path = openapi/sdks/metafab-swift5
+	url = https://github.com/MetaFabInc/metafab-swift5.git
+[submodule "openapi/sdks/metafab-csharp"]
+	path = openapi/sdks/metafab-csharp
+	url = https://github.com/MetaFabInc/metafab-csharp.git
+[submodule "openapi/sdks/metafab-java"]
+	path = openapi/sdks/metafab-java
+	url = https://github.com/MetaFabInc/metafab-java.git
+[submodule "openapi/sdks/metafab-java-android"]
+	path = openapi/sdks/metafab-java-android
+	url = https://github.com/MetaFabInc/metafab-java-android.git
+[submodule "openapi/sdks/metafab-rust"]
+	path = openapi/sdks/metafab-rust
+	url = https://github.com/MetaFabInc/metafab-rust.git
+[submodule "openapi/sdks/metafab-php"]
+	path = openapi/sdks/metafab-php
+	url = https://github.com/MetaFabInc/metafab-php.git
+[submodule "openapi/sdks/metafab-go"]
+	path = openapi/sdks/metafab-go
+	url = https://github.com/MetaFabInc/metafab-go.git
+[submodule "openapi/sdks/metafab-cpp-ue4"]
+	path = openapi/sdks/metafab-cpp-ue4
+	url = https://github.com/MetaFabInc/metafab-cpp-ue4.git
+[submodule "openapi/sdks/metafab-csharp-unity"]
+	path = openapi/sdks/metafab-csharp-unity
+	url = https://github.com/MetaFabInc/metafab-csharp-unity.git

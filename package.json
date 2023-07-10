@@ -1,0 +1,66 @@
+{
+  "name": "metafab-api",
+  "version": "1.5.6",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha 'test/**/*.js' --exit -t 600000",
+    "dev": "nodemon server.js",
+    "start": "npx ts-node server.js",
+    "generate-openapi-spec": "node openapi",
+    "generate-openapi-sdks": "npm run generate-openapi-spec && npx openapi-generator-cli generate",
+    "commit-openapi-spec": "cd ./openapi/spec/ && git add . && git commit -m \"Spec Update\" && git push",
+    "commit-openapi-sdks": "for d in ./openapi/sdks/*/ ; do /bin/zsh -c \"(cd \"$d\" && git add . && git commit -m \\\"SDK Update\\\" && git push)\"; done"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MetaFabInc/api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MetaFabInc/api/issues"
+  },
+  "homepage": "https://github.com/MetaFabInc/api#readme",
+  "dependencies": {
+    "@enzoferey/ethers-error-parser": "^0.2.2",
+    "@pinata/sdk": "^2.1.0",
+    "@prisma/client": "^4.2.1",
+    "@sentry/node": "^7.19.0",
+    "@sentry/tracing": "^7.19.0",
+    "aws-sdk": "^2.1215.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.1.1",
+    "deepmerge": "^4.2.2",
+    "dotenv": "^16.0.1",
+    "ethers": "^5.7.2",
+    "express": "^4.18.1",
+    "file-type": "16.5.4",
+    "got": "^11.8.5",
+    "jsonwebtoken": "^8.5.1",
+    "metafab-contracts": "0.9.1",
+    "node-fetch": "^2.6.7",
+    "readmeio": "^6.0.1",
+    "redis": "^4.3.1"
+  },
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.5.2",
+    "@types/node": "^18.7.0",
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
+    "eslint": "^7.32.0",
+    "hardhat": "^2.10.2",
+    "mocha": "^10.0.0",
+    "mocha-junit-reporter": "^2.0.2",
+    "nodemon": "^2.0.19",
+    "prisma": "^4.2.1",
+    "swagger-jsdoc": "^6.2.5",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.7.4"
+  }
+}
