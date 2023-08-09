@@ -10,7 +10,7 @@ require('dotenv').config();
 
 const ethers = require('ethers');
 const contracts = require('metafab-contracts');
-const { PrismaClient, PrismaClientInitializationError} = require('@prisma/client');
+const { PrismaClient, PrismaClientInitializationError } = require('@prisma/client');
 
 
 /*

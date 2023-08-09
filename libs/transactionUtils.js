@@ -1,10 +1,8 @@
-const ethers = require('ethers');
 const contractUtils = rootRequire('./libs/contractUtils');
 const cryptoUtils = rootRequire('/libs/cryptoUtils');
 const evmUtils = rootRequire('/libs/evmUtils');
 const gasUtils = rootRequire('/libs/gasUtils');
 const forwarderUtils = rootRequire('/libs/forwarderUtils');
-const profileUtils = rootRequire('/libs/profileUtils');
 const walletUtils = rootRequire('/libs/walletUtils');
 
 async function executeDelegateApprovalForSystemTransaction({ systemId, delegateAddress, approved, signerAddress, nonce, signature, fundingWalletCiphertext, chain, rpcs }) {
@@ -157,13 +155,13 @@ async function executeTransfer({ chain, walletSigner, toAddress, value }) {
   }, chain);
 }
 
-async function _executeStandardTransactionWithNonceRetry(contractInstance, walletSigner, provider, chain, func, args, value, gasPrice, gasEstimate) {
+async function _executeStandardTransactionWithNonceRetry(contractInstance, walletSigner, provider, chain, func, args, value, gasPrice, gasLimit) {
   const connectedWalletSigner = walletSigner.connect(provider);
 
   gasPrice = gasPrice || await gasUtils.getChainGasPrice(chain, provider);
 
-  if (!gasEstimate) {
-    await gasUtils.estimateTransactionGas(contractInstance, walletSigner, provider, func, args, { gasPrice, value });
+  if (!gasLimit) {
+    gasLimit = await gasUtils.estimateTransactionGas(contractInstance, walletSigner, provider, func, args, { gasPrice, value });
   }
 
   return _nonceRetryTransaction(async retryCount => {
@@ -176,6 +174,7 @@ async function _executeStandardTransactionWithNonceRetry(contractInstance, walle
         gasPrice,
         value,
         nonce,
+        gasLimit,
       });
 
       await tx.wait();
@@ -219,6 +218,10 @@ async function _executeTransactionWithForwardingWalletNonceRetry({ contractInsta
   const connectedForwardingWalletSigner = forwardingWalletSigner.connect(provider);
 
   let gasPrice = await gasUtils.getChainGasPrice(chain, provider);
+
+  if (!gasLimit) {
+    gasLimit = await gasUtils.estimateTransactionGas(contractInstance, forwardingWalletSigner, provider, func, args, { gasPrice });
+  }
 
   return _nonceRetryTransaction(async retryCount => {
     gasPrice = retryCount > 0 && retryCount % 2 === 0 // recalculate gas every other attempt.

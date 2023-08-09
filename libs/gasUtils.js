@@ -45,8 +45,8 @@ const gasSupplementStrategies = {
 async function estimateTransactionGas(contractInstance, walletSigner, provider, func, args, overrides = {}) {
   const connectedWalletSigner = walletSigner.connect(provider);
 
-  const gasEstimate = await contractInstance.connect(connectedWalletSigner).estimateGas[func](...args, overrides);
-  console.log('gasEstimate', gasEstimate.toString());
+  let gasEstimate = await contractInstance.connect(connectedWalletSigner).estimateGas[func](...args, overrides);
+  gasEstimate = gasEstimate.add(gasEstimate.div(10)); // Add +10% to mitigate risk of tx running out of gas.
 
   if (overrides.value) { // estimateGas won't fail if sender balance < required payment, check manually.
     const senderBalance = await connectedWalletSigner.getBalance();
