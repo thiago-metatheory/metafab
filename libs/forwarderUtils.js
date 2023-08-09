@@ -1,6 +1,6 @@
 const ethers = require('ethers');
 const { randomBytes } = require('crypto');
-const {BigNumber} = require("ethers");
+const { BigNumber } = require('ethers');
 const evmUtils = rootRequire('/libs/evmUtils');
 const gasUtils = rootRequire('/libs/gasUtils');
 
@@ -55,7 +55,7 @@ async function generateForwardRequestArgs(contractInstance, forwarderAddress, wa
     from: wallet.address,
     to: contractInstance.address,
     value: ethers.BigNumber.from(0),
-    gas: (overrides && overrides.gasLimit) ? ethers.BigNumber.from(overrides.gasLimit) : BigNumber.from(await gasUtils.estimateTransactionGas(contractInstance, gasEstimateSigner, provider, func, args)).mul(105).div(100), // 5% multiplier to reduce out of gas edge cases.
+    gas: (overrides && overrides.gasLimit) ? ethers.BigNumber.from(overrides.gasLimit) : BigNumber.from(await gasUtils.estimateTransactionGas(contractInstance, gasEstimateSigner, provider, func, args)),
     nonce: ethers.BigNumber.from(BigInt(`0x${randomBytes(32).toString('hex')}`)),
     data: callData,
   };
