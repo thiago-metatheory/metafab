@@ -1,7 +1,8 @@
 const path = require('path');
 const { PrismaClient } = require('@prisma/client');
 
-const rootPath = __dirname.replace('/setup', '');
+// FIXME: this will probably break on Linux
+const rootPath = __dirname.replace('\\setup', '');
 
 global.rootRequire = filePath => {
   return require(path.join(rootPath, filePath));

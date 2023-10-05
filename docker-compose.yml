@@ -1,32 +1,14 @@
 version: "3.9"
 
 services:
-  api:
-    build:
-      context: ./
-      dockerfile: ./Dockerfile
-    command: npm run dev
-    depends_on:
-      - db
-    ports:
-      - "9000:9000"
-    volumes:
-      - ./routes:/usr/src/app/routes:delegated
-      - ./libs:/usr/src/app/libs:delegated
-    networks:
-      - my_network
-
   db:
     platform: linux/x86_64
     image: mysql:5.7
-    command: --default-authentication-plugin=mysql_native_password --max-connections=1000 --wait-timeout=28800 --max_allowed_packet=64M
     restart: always
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-    networks:
-      - my_network
+      MYSQL_ROOT_PASSWORD: password
 
   redis:
     image: redis
@@ -38,36 +20,6 @@ services:
       - redis_db:/var/lib/redis:delegated
     environment:
       - REDIS_REPLICATION_MODE=master
-    networks:
-      - my_network
-
-  test-suite:
-    build:
-      context: ./
-      dockerfile: ./Dockerfile
-#    command: node_modules/.bin/mocha -R spec 'test/**/*.js' --exit -t 15000 -g '200s with transaction objects when doing multiple mints in parallel'
-    command: npm run test
-    networks:
-      - my_network
-    volumes:
-      - ./test/reports:/usr/src/api/test/reports:delegated
-
-  hardhat:
-    build:
-      context: ./
-      dockerfile: ./Dockerfile
-    command: npx hardhat node
-    ports:
-      - "8545:8545"
-    networks:
-      - my_network
-
-
 
 volumes:
   redis_db:
-
-
-networks:
-  my_network:
-    external: true
