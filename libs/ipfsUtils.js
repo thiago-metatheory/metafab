@@ -5,6 +5,7 @@ const pinata = new pinataSDK({
   pinataSecretApiKey: process.env.PINATA_SECRET_KEY,
 });
 
+// FIXME: figure out a way to log a more meaningful error when authentication fails
 const isAuthenticated = new Promise(resolve => pinata.testAuthentication().then(resolve()));
 
 async function pinFile(fileBuffer, fileExtension) {
